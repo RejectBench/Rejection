@@ -3,7 +3,7 @@
 // ============================================================================
 window.GATE_CONFIG = {
   // Web app URL from Apps Script: Deploy → New deployment → Web app → copy the URL ending in /exec
-  scriptUrl: "https://script.google.com/macros/s/REPLACE_WITH_YOUR_DEPLOYMENT_ID/exec",
+  scriptUrl: "https://script.google.com/macros/s/AKfycbw9J-8fotTzU73baxJRfdHodqtfmLgx4J4yiovhHwqG52YKSEpmSdSxQFFv1lHAg2TW/exec",
 
   title: "RejectBench Survey",
   subtitle: "Understanding AI-assisted peer review in the research community",
