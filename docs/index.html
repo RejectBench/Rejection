@@ -3,122 +3,213 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://script.google.com https://script.googleusercontent.com; frame-src https://challenges.cloudflare.com; base-uri 'none'; form-action 'none'">
-<meta name="referrer" content="no-referrer">
-<title>RejectBench Survey</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'none'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>RejectBench Survey: malicious AI-generated peer reviews</title>
+<meta name="description" content="A research survey on how researchers recognise, experience and judge malicious AI-generated peer reviews.">
+<link rel="icon" href="data:,">
 <link rel="preload" href="fonts/stix-400.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face { font-family: "STIX Two Text"; src: url(fonts/stix-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "STIX Two Text"; src: url(fonts/stix-600.woff2) format("woff2"); font-weight: 600; font-display: swap; }
 @font-face { font-family: "STIX Two Text"; src: url(fonts/stix-400-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+
 :root {
-  --paper: #F7F8FA; --ink: #1C2340; --pencil: #3E7CB1; --wash: #E6EEF7; --rule: #D3D8E2;
-  --field: #A9B0C0; --muted: #586078; --redpen: #B3261E; --ok: #2E6B3F;
+  --paper: #F3F5F8;       /* cool page grey */
+  --sheet: #FFFFFF;       /* the review form */
+  --ink: #1D2333;
+  --muted: #5B6375;
+  --rule: #D6DBE4;
+  --redpen: #B42330;      /* annotations, the circled score */
+  --marker: rgba(255, 212, 59, .62);  /* highlighter on suspicious phrases */
   --serif: "STIX Two Text", "STIX Two", "Times New Roman", Times, serif;
+  --wrap: 74rem;
 }
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--paper); color: var(--ink); font: 400 1.125rem/1.6 var(--serif); -webkit-text-size-adjust: 100%; }
-body { margin: 0; }
-[hidden] { display: none !important; }
-a { color: var(--pencil); text-underline-offset: .15em; }
-:focus-visible { outline: 2px solid var(--pencil); outline-offset: 3px; border-radius: 2px; }
-
-.page { max-width: 64rem; margin: 0 auto; padding: 4.5rem 1.5rem 3rem; }
-.row { display: grid; grid-template-columns: minmax(0, 36rem) minmax(0, 1fr); column-gap: 3.5rem; }
+html { background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.55 var(--serif); -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+img { max-width: 100%; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+.wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding-left: 2rem; padding-right: 2rem; }
 h1, h2 { font-weight: 600; margin: 0; }
-h1 { font-size: 3.75rem; line-height: 1.02; letter-spacing: -0.015em; max-width: 12ch; }
-.subtitle { font-style: italic; font-size: 1.5rem; line-height: 1.3; color: var(--muted); margin: .75rem 0 3rem; max-width: 28ch; }
-.intro { margin: 0 0 2rem; }
-h2 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 1rem; }
-h2:focus { outline: none; }
-label.field { display: block; font-weight: 600; }
-.hint { font-size: 1rem; color: var(--muted); margin: .25rem 0 .75rem; }
-input[type="email"] {
-  font: inherit; color: var(--ink); background: #fff; width: 100%; max-width: 26rem;
-  border: 1px solid var(--field); border-radius: 3px; padding: .6rem .75rem;
+p { margin: 0; }
+
+/* ------------------------------------------------ header */
+.top { padding-top: 1.4rem; padding-bottom: .5rem; }
+.wordmark { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; text-decoration: none; }
+
+/* ------------------------------------------------ hero (fills the space between header and partners) */
+main { flex: 1; display: flex; align-items: center; }
+.hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr); gap: 4rem; align-items: center; padding-top: 1.5rem; padding-bottom: 2rem; }
+.hero h1 { font-size: 3.125rem; line-height: 1.06; letter-spacing: -0.02em; max-width: 14ch; }
+.lede { margin-top: 1.4rem; font-size: 1.1875rem; line-height: 1.5; max-width: 30rem; }
+.cta { margin-top: 1.9rem; display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.4rem; }
+.cta-note { color: var(--muted); font-size: .9688rem; max-width: 17rem; line-height: 1.45; }
+.btn { display: inline-block; font: 600 1.125rem/1 var(--serif); text-decoration: none; color: var(--sheet); background: var(--ink);
+  border: 1px solid var(--ink); border-radius: 3px; padding: 1rem 1.6rem; transition: background .15s; }
+.btn:hover { background: var(--redpen); border-color: var(--redpen); }
+
+/* ------------------------------------------------ the specimen review */
+.specimen { margin: 0; }
+.spec-grid { display: grid; grid-template-columns: minmax(0, 1fr) 10.5rem; column-gap: 1.25rem; }
+.spec-row { grid-column: 1; background: var(--sheet); border-left: 1px solid var(--rule); border-right: 1px solid var(--rule); padding: 0 1.4rem .8rem; font-size: .9688rem; line-height: 1.5; }
+.spec-row.first { border-top: 1px solid var(--rule); border-radius: 4px 4px 0 0; padding-top: 1.1rem; }
+.spec-row.last { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; padding-bottom: 1.2rem; box-shadow: 0 18px 40px -28px rgba(29, 35, 51, .35); }
+.spec-title { font-weight: 600; font-size: 1rem; line-height: 1.35; padding-bottom: .75rem; border-bottom: 1px solid var(--rule); margin-bottom: .1rem; }
+.spec-title span { display: block; font-weight: 400; color: var(--muted); font-size: .9063rem; margin-top: .15rem; }
+.field { font-weight: 600; display: block; margin-bottom: .1rem; }
+.note { grid-column: 2; align-self: start; color: var(--redpen); font-style: italic; font-size: .9375rem; line-height: 1.35; position: relative; padding-top: .05rem; }
+.note::before { content: ""; position: absolute; left: -1.25rem; top: .7rem; width: .95rem; border-top: 1.5px solid var(--redpen); }
+.mark { background-image: linear-gradient(var(--marker), var(--marker)); background-repeat: no-repeat; background-size: 100% 78%; background-position: 0 70%; padding: 0 .08em;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.scores { display: flex; flex-wrap: wrap; gap: .5rem 2.25rem; }
+.circled { position: relative; display: inline-block; padding: 0 .1em; }
+.circled::after { content: ""; position: absolute; inset: -.32em -.55em -.28em -.5em; border: 1.75px solid var(--redpen); border-radius: 50%; transform: rotate(-3deg); }
+.spec-caption { margin-top: .8rem; font-size: .9063rem; color: var(--muted); font-style: italic; }
+
+/* one orchestrated moment: the highlighter passes over the review, then the notes appear */
+@media (prefers-reduced-motion: no-preference) {
+  .mark { animation: sweep .55s cubic-bezier(.3, .7, .3, 1) both; animation-delay: var(--d, .4s); background-size: 0% 78%; }
+  .note { animation: appear .45s ease both; animation-delay: calc(var(--d, .4s) + .45s); }
+  .circled::after { animation: ring .4s ease both; animation-delay: var(--d, .4s); }
+  @keyframes sweep { to { background-size: 100% 78%; } }
+  @keyframes appear { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+  @keyframes ring { from { opacity: 0; } to { opacity: 1; } }
 }
-input:focus { border-color: var(--pencil); outline: 2px solid var(--pencil); outline-offset: 0; }
-#turnstile:not(:empty) { margin-top: 1.25rem; }
-.error { color: var(--redpen); font-style: italic; margin: .75rem 0 0; font-size: 1rem; }
-.error:empty { display: none; }
-.actions { margin-top: 1.75rem; display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: center; }
-button, .btn { font: 600 1.0625rem/1 var(--serif); cursor: pointer; }
-.btn { display: inline-block; background: var(--ink); color: var(--paper); border: 0; border-radius: 3px; padding: .85rem 1.5rem; text-decoration: none; }
-.btn:hover { background: var(--pencil); color: var(--paper); }
-.btn[disabled] { opacity: .55; cursor: progress; }
-.link { background: none; border: 0; padding: 0; color: var(--pencil); font-weight: 400; font-size: 1rem; text-decoration: underline; text-underline-offset: .15em; }
-.link[disabled] { color: var(--muted); text-decoration: none; cursor: default; }
-.note { border-left: 1px solid var(--rule); padding-left: 1.1rem; font-size: 1rem; line-height: 1.55; color: var(--muted); }
-.note h3 { font-size: 1rem; color: var(--ink); margin: 0 0 .5rem; font-weight: 600; }
-.note ul { margin: 0; padding: 0; list-style: none; }
-.note li + li { margin-top: .75rem; }
-.going { color: var(--ok); }
-footer { margin-top: 5rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); font-size: .9375rem; color: var(--muted); max-width: 36rem; }
-footer p { margin: 0; }
+
+/* ------------------------------------------------ partners + contact */
+.partners { border-top: 1px solid var(--rule); }
+.partners .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2.5rem; padding-top: 1.25rem; padding-bottom: 1.25rem; }
+.partners h2 { font-size: .9688rem; color: var(--muted); font-weight: 400; font-style: italic; white-space: nowrap; }
+.logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 3rem; }
+.logos li { display: flex; align-items: center; }
+.logos img { height: 2.75rem; width: auto; max-width: 11rem; object-fit: contain; }
+.logos a { display: flex; }
+.logo-slot { height: 2.75rem; min-width: 10rem; padding: 0 1rem; border: 1px dashed #AEB5C3; border-radius: 4px; color: var(--muted); font-size: .9063rem; justify-content: center; }
+footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
+
+/* ------------------------------------------------ smaller screens (these scroll; that's fine) */
+@media (max-width: 68rem) {
+  main { display: block; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 2.75rem; padding-top: 2rem; padding-bottom: 3rem; }
+  .hero h1 { max-width: 16ch; }
+  .specimen { max-width: 44rem; }
+}
 @media (max-width: 52rem) {
-  .row { grid-template-columns: minmax(0, 1fr); }
-  aside { margin-top: 2.5rem; }
+  .spec-grid { grid-template-columns: minmax(0, 1fr); }
+  .note { grid-column: 1; background: var(--sheet); border-left: 1px solid var(--rule); border-right: 1px solid var(--rule);
+    padding: 0 1.4rem .8rem 2.4rem; margin-top: -0.3rem; }
+  .note::before { left: 1.4rem; top: .7rem; width: .7rem; }
+  /* the last note now closes the card */
+  .spec-row.last { border-bottom: 0; border-radius: 0; box-shadow: none; padding-bottom: .8rem; }
+  .spec-grid > .note:last-child { border-bottom: 1px solid var(--rule); border-radius: 0 0 4px 4px; padding-bottom: 1.2rem;
+    box-shadow: 0 18px 40px -28px rgba(29, 35, 51, .35); }
 }
 @media (max-width: 40rem) {
   html { font-size: 106.25%; }
-  .page { padding-top: 2.75rem; }
-  h1 { font-size: 2.75rem; }
-  .subtitle { font-size: 1.25rem; }
+  .wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
+  .hero { padding-top: 1.25rem; padding-bottom: 2.5rem; }
+  .hero h1 { font-size: 2.375rem; }
+  .lede { font-size: 1.125rem; }
+  .spec-row, .note { padding-left: 1.1rem; padding-right: 1.1rem; }
+  .note { padding-left: 2rem; }
+  .note::before { left: 1.1rem; }
+  .logos { gap: 1rem 1.75rem; }
+  .logos img, .logo-slot { height: 2.5rem; }
+  .logo-slot { min-width: 8.5rem; }
+}
+/* short but wide screens (e.g. 1366×768 laptops): tighten so it still fits on one screen */
+@media (min-width: 68rem) and (max-height: 50rem) {
+  .hero h1 { font-size: 2.75rem; }
+  .lede { margin-top: 1.1rem; font-size: 1.125rem; }
+  .cta { margin-top: 1.4rem; }
+  .spec-row { padding-bottom: .6rem; font-size: .9375rem; }
+  .spec-row.first { padding-top: .9rem; }
+  .spec-title { padding-bottom: .6rem; }
+  .hero { padding-top: .75rem; padding-bottom: 1.25rem; }
+  .partners .wrap { padding-top: .9rem; padding-bottom: .9rem; }
 }
 </style>
 </head>
 <body>
-<div class="page">
-  <header>
-    <h1 id="title"></h1>
-    <p class="subtitle" id="subtitle"></p>
-  </header>
 
-  <div class="row">
-    <main>
-      <!-- email -->
-      <section id="view-email">
-        <p class="intro" id="intro"></p>
-        <form id="email-form" novalidate>
-          <h2 tabindex="-1">Enter your institutional email</h2>
-          <label class="field" for="email">Institutional email</label>
-          <p class="hint" id="email-hint">Use your university or research-institute address.</p>
-          <input id="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" aria-describedby="email-hint email-error">
-          <div id="turnstile"></div>
-          <p class="error" id="email-error" role="alert"></p>
-          <div class="actions"><button class="btn" type="submit" id="send-btn">Continue to the survey</button></div>
-        </form>
-      </section>
+<!-- =====================================================================
+     EDIT HERE: the survey link is in the "Start the survey" button below (search "qualtrics").
+     ===================================================================== -->
 
-      <!-- redirecting / returning -->
-      <section id="view-go" hidden>
-        <h2 tabindex="-1" id="go-title">Verified</h2>
-        <p id="go-text"></p>
-        <div class="actions">
-          <a class="btn" id="go-link" href="#" rel="noreferrer">Go to the survey</a>
-          <button class="link" type="button" id="go-other">Use a different email</button>
-        </div>
-      </section>
+<header class="wrap top">
+  <a class="wordmark" href="./">RejectBench</a>
+</header>
 
-      <!-- messages -->
-      <section id="view-message" hidden>
-        <h2 tabindex="-1" id="message-title"></h2>
-        <p id="message-text"></p>
-        <div class="actions"><button class="link" type="button" id="message-back">Use a different email</button></div>
-      </section>
-    </main>
-
-    <aside aria-labelledby="privacy-title">
-      <div class="note">
-        <h3 id="privacy-title">How your email is used</h3>
-        <ul id="privacy"></ul>
+<main>
+  <section class="wrap hero">
+    <div>
+      <h1>Reviewed by a machine set on rejecting your paper?</h1>
+      <p class="lede">RejectBench is a research survey on malicious AI-generated peer reviews: reviews produced with language models to push a paper toward rejection rather than to assess it. We want to learn how researchers recognise them, how they experience them, and what should be done about them.</p>
+      <div class="cta">
+        <a class="btn" href="https://qualtricsxmwf6zd2vxy.qualtrics.com/jfe/form/SV_b8zP6an48Aclx6m">Start the survey</a>
+        <!-- EDIT: make sure these two claims match your questionnaire -->
+        <p class="cta-note">About 10 minutes. We don’t ask for your name or email address.</p>
       </div>
-    </aside>
-  </div>
+    </div>
 
-  <footer><p id="footer-text"></p></footer>
-</div>
-<script src="config.js"></script>
-<script src="app.js"></script>
+    <figure class="specimen" aria-label="Illustrative example of a malicious AI-generated review, with annotations">
+      <div class="spec-grid">
+        <div class="spec-row first">
+          <p class="spec-title">Official review of Submission 4127<span>Reviewer 3</span></p>
+        </div>
+        <div class="spec-row">
+          <span class="field">Weaknesses</span>
+          <p><span class="mark" style="--d:.5s">The novelty of this work is limited and the contribution is incremental.</span></p>
+        </div>
+        <p class="note" style="--d:.5s">Generic. It fits any paper.</p>
+
+        <div class="spec-row">
+          <p>The central idea has already been demonstrated in <span class="mark" style="--d:1.05s">Chen et al. (2023) [37]</span>, which the authors fail to cite.</p>
+        </div>
+        <p class="note" style="--d:1.05s">No such paper exists.</p>
+
+        <div class="spec-row">
+          <p><span class="mark" style="--d:1.6s">The experiments are insufficient to support the claims.</span> The paper would benefit from a more thorough evaluation.</p>
+        </div>
+        <p class="note" style="--d:1.6s">Which experiments? Which claims?</p>
+
+        <div class="spec-row last">
+          <div class="scores">
+            <p><span class="field">Rating</span><span class="circled" style="--d:2.15s">1: Strong reject</span></p>
+            <p><span class="field">Confidence</span><span class="mark" style="--d:2.4s">5: Absolutely certain</span></p>
+          </div>
+        </div>
+        <p class="note" style="--d:2.4s">Certain, and specific about nothing.</p>
+      </div>
+      <figcaption class="spec-caption">An illustrative excerpt written for this page, not taken from a real review.</figcaption>
+    </figure>
+  </section>
+</main>
+
+<!-- =====================================================================
+     EDIT HERE: collaborating institutions.
+     Put logo files (PNG or SVG, transparent background) in docs/logos/ and replace each
+     placeholder <li> with:
+       <li><a href="https://www.example.ac.jp"><img src="logos/example.png" alt="Example University"></a></li>
+     ===================================================================== -->
+<section class="partners" aria-labelledby="partners-title">
+  <div class="wrap">
+    <h2 id="partners-title">A collaboration between</h2>
+    <ul class="logos">
+      <li class="logo-slot">Institution logo</li>
+      <li class="logo-slot">Institution logo</li>
+      <li class="logo-slot">Institution logo</li>
+      <li class="logo-slot">Institution logo</li>
+    </ul>
+  </div>
+</section>
+
+<!-- EDIT: contact address (delete this footer if you don't want it) -->
+<footer class="wrap">
+  <p>Questions about this study: <a href="mailto:contact@your-domain.org">contact@your-domain.org</a></p>
+</footer>
+
 </body>
 </html>
