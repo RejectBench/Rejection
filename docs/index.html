@@ -86,6 +86,13 @@ main { flex: 1; display: flex; align-items: center; }
 .logos li { display: flex; align-items: center; }
 .logos img { height: 2.75rem; width: auto; max-width: 11rem; object-fit: contain; }
 .logos a { display: flex; }
+.partner-name { font-size: 1.1875rem; font-weight: 600; letter-spacing: -0.005em; text-decoration: none; line-height: 2.75rem; }
+.partner-name:hover { color: var(--redpen); }
+.logos .logo-isct { height: 2.5rem; max-width: none; }
+.logos .logo-ms { height: 1.85rem; max-width: none; }
+.logos .logo-tsinghua { height: 3rem; }
+.with-name { display: flex; align-items: center; gap: .7rem; text-decoration: none; font-weight: 600; font-size: 1.125rem; letter-spacing: -0.005em; }
+.logos a:hover { opacity: .8; }
 .logo-slot { height: 2.75rem; min-width: 10rem; padding: 0 1rem; border: 1px dashed #AEB5C3; border-radius: 4px; color: var(--muted); font-size: .9063rem; justify-content: center; }
 footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
 
@@ -117,6 +124,11 @@ footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
   .note::before { left: 1.1rem; }
   .logos { gap: 1rem 1.75rem; }
   .logos img, .logo-slot { height: 2.5rem; }
+  .logos .logo-isct { height: 2.1rem; }
+  .logos .logo-ms { height: 1.6rem; }
+  .logos .logo-tsinghua { height: 2.6rem; }
+  .with-name { font-size: 1rem; }
+  .partner-name { font-size: 1.0625rem; line-height: 1.4; }
   .logo-slot { min-width: 8.5rem; }
 }
 /* short but wide screens (e.g. 1366×768 laptops): tighten so it still fits on one screen */
@@ -135,7 +147,7 @@ footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
 <body>
 
 <!-- =====================================================================
-     EDIT HERE: the survey link is in the "Start the survey" button below (search "qualtrics").
+     EDIT HERE: the survey link is in the "Start the survey" button below (search "docs.google.com").
      ===================================================================== -->
 
 <header class="wrap top">
@@ -148,8 +160,8 @@ footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
       <h1>Reviewed by a machine set on rejecting your paper?</h1>
       <p class="lede">RejectBench is a research survey on malicious AI-generated peer reviews: reviews produced with language models to push a paper toward rejection rather than to assess it. We want to learn how researchers recognise them, how they experience them, and what should be done about them.</p>
       <div class="cta">
-        <a class="btn" href="https://qualtricsxmwf6zd2vxy.qualtrics.com/jfe/form/SV_b8zP6an48Aclx6m">Start the survey</a>
-        <!-- EDIT: make sure these two claims match your questionnaire -->
+        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSemS4Z8scKzOjLhwLZ2VrXrCel-cjbBI0scZBFnrPFRFXO5UA/viewform">Start the survey</a>
+        <!-- EDIT: make sure these two claims match your form (Google Forms: Settings → Responses → "Collect email addresses" must be off) -->
         <p class="cta-note">About 10 minutes. We don’t ask for your name or email address.</p>
       </div>
     </div>
@@ -190,25 +202,23 @@ footer { padding-bottom: 1.25rem; font-size: .875rem; color: var(--muted); }
 
 <!-- =====================================================================
      EDIT HERE: collaborating institutions.
-     Put logo files (PNG or SVG, transparent background) in docs/logos/ and replace each
-     placeholder <li> with:
-       <li><a href="https://www.example.ac.jp"><img src="logos/example.png" alt="Example University"></a></li>
+     Logo files live in docs/logos/. Each logo has its own height class (logo-isct, logo-tsinghua, logo-ms)
+     so they look balanced; to add another, copy a line and give the image a height in the CSS.
      ===================================================================== -->
 <section class="partners" aria-labelledby="partners-title">
   <div class="wrap">
     <h2 id="partners-title">A collaboration between</h2>
     <ul class="logos">
-      <li class="logo-slot">Institution logo</li>
-      <li class="logo-slot">Institution logo</li>
-      <li class="logo-slot">Institution logo</li>
-      <li class="logo-slot">Institution logo</li>
+      <li><a href="https://www.isct.ac.jp/en"><img class="logo-isct" src="logos/isct.png" alt="Institute of Science Tokyo"></a></li>
+      <li><a class="with-name" href="https://www.tsinghua.edu.cn/en/"><img class="logo-tsinghua" src="logos/tsinghua.png" alt=""><span>Tsinghua University</span></a></li>
+      <li><a href="https://www.microsoft.com/en-us/research/"><img class="logo-ms" src="logos/microsoft.png" alt="Microsoft"></a></li>
     </ul>
   </div>
 </section>
 
-<!-- EDIT: contact address (delete this footer if you don't want it) -->
+<!-- EDIT: contact address -->
 <footer class="wrap">
-  <p>Questions about this study: <a href="mailto:contact@your-domain.org">contact@your-domain.org</a></p>
+  <p>Questions about this study: <a href="mailto:tan.y.9f7b@m.isct.ac.jp">tan.y.9f7b@m.isct.ac.jp</a></p>
 </footer>
 
 </body>
