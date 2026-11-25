@@ -43,9 +43,11 @@ p { margin: 0; }
 main { flex: 1; display: flex; align-items: center; }
 .hero { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr); gap: 1.6rem 4rem; align-items: center; padding-top: 1rem; padding-bottom: 1.5rem; }
 .hero h1 { font-size: 3rem; line-height: 1.06; letter-spacing: -0.02em; max-width: 21ch; }
-.lede { margin-top: 1.2rem; font-size: 1.1875rem; line-height: 1.5; max-width: 31rem; }
-.cta { margin-top: 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: .9rem 1.4rem; }
-.cta-note { color: var(--muted); font-size: .9688rem; max-width: 17rem; line-height: 1.45; }
+.lede { margin-top: 1rem; font-size: 1.1875rem; line-height: 1.5; max-width: 31rem; }
+.cta { margin-top: 1.4rem; }
+.cta-buttons { display: flex; flex-wrap: wrap; gap: .75rem; }
+.cta-note { margin-top: .65rem; color: var(--muted); font-size: .9375rem; line-height: 1.45; max-width: 31rem; }
+.btn[lang="zh-Hans"] { font-family: "STIX Two Text", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "SimSun", serif; letter-spacing: .04em; }
 .btn { display: inline-block; font: 600 1.125rem/1 var(--serif); text-decoration: none; color: var(--sheet); background: var(--ink);
   border: 1px solid var(--ink); border-radius: 3px; padding: 1rem 1.6rem; transition: background .15s; }
 .btn:hover { background: var(--redpen); border-color: var(--redpen); }
@@ -123,6 +125,8 @@ main { flex: 1; display: flex; align-items: center; }
 }
 @media (max-width: 40rem) {
   html { font-size: 106.25%; }
+  .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn { text-align: center; }
   .ex-items { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; }
   .ex-head span { display: block; margin: .2rem 0 0; }
   .wrap { padding-left: 1.25rem; padding-right: 1.25rem; }
@@ -140,13 +144,15 @@ main { flex: 1; display: flex; align-items: center; }
 }
 /* short but wide screens (e.g. 1366×768 laptops): tighten so it still fits on one screen */
 @media (min-width: 68rem) and (max-height: 50rem) {
-  .hero h1 { font-size: 2.5rem; }
+  .hero h1 { font-size: 2.375rem; }
   .excerpt { padding: .7rem 1.2rem .8rem; }
   .ex-head { padding-bottom: .45rem; }
   .ex-items { margin-top: .6rem; gap: 1.4rem; }
   .ex-items li p { font-size: .875rem; line-height: 1.45; }
-  .lede { margin-top: .9rem; font-size: 1.0625rem; line-height: 1.45; }
-  .cta { margin-top: 1.4rem; }
+  .lede { margin-top: .7rem; font-size: 1.0625rem; line-height: 1.45; }
+  .cta { margin-top: 1.2rem; }
+  .cta-note { margin-top: .6rem; }
+  .btn { padding: .85rem 1.4rem; font-size: 1.0625rem; }
   .hero { padding-top: .5rem; padding-bottom: 1rem; row-gap: 1.1rem; }
   .top { padding-top: 1rem; padding-bottom: .25rem; }
   .partners .wrap { padding-top: .9rem; padding-bottom: .9rem; }
@@ -156,7 +162,7 @@ main { flex: 1; display: flex; align-items: center; }
 <body>
 
 <!-- =====================================================================
-     EDIT HERE: the survey link is in the "Start the survey" button below (search "docs.google.com").
+     EDIT HERE: the two survey links (English, Chinese) are in the buttons below (search "forms.gle").
      ===================================================================== -->
 
 <header class="wrap top">
@@ -169,8 +175,11 @@ main { flex: 1; display: flex; align-items: center; }
       <h1>Reviewed by a machine set on rejecting your paper?</h1>
       <p class="lede">RejectBench is a research survey on malicious AI-generated peer reviews: reviews produced with language models to push a paper toward rejection rather than to assess it. We want to learn how researchers recognise and experience them, and what should be done.</p>
       <div class="cta">
-        <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSemS4Z8scKzOjLhwLZ2VrXrCel-cjbBI0scZBFnrPFRFXO5UA/viewform">Start the survey</a>
-        <!-- EDIT: make sure these two claims match your form (Google Forms: Settings → Responses → "Collect email addresses" must be off) -->
+        <div class="cta-buttons">
+          <a class="btn" href="https://forms.gle/byGvRRWkjiGzXPWUA" hreflang="en">Start in English</a>
+          <a class="btn" href="https://forms.gle/Wo6Wm9cubAeKUGsM8" hreflang="zh-Hans" lang="zh-Hans">用中文填写</a>
+        </div>
+        <!-- EDIT: make sure these claims match both forms (Google Forms: Settings → Responses → "Collect email addresses" must be off) -->
         <p class="cta-note">About 10 minutes. We don’t ask for your name or email address.</p>
       </div>
     </div>
